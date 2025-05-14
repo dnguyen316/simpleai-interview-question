@@ -6,9 +6,9 @@ const authRoutes = require('./routes/auth');
 const User = require('./models/User');
 const app = express();
 
-mongoose.connect('mongodb+srv://ngltduong:%40Dltn_15041998@cluster0.vwn71ur.mongodb.net/myDatabase?retryWrites=true&w=majority&appName=Cluster0', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
+mongoose.connect('mongodb://localhost:27017/interviewApp', {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
 });
 
 // Middleware
@@ -21,9 +21,9 @@ app.use(session({
   resave: false,
   saveUninitialized: false,
   cookie: {
-    secure: false,         // Replit is HTTPS, but iOS drops secure cookies unless `sameSite` is set
+    secure: false,        
     httpOnly: true,
-    sameSite: 'lax',        // <<< IMPORTANT: allows cookies across redirects/tabs
+    sameSite: 'lax',
     maxAge: 1000 * 60 * 60  // 1 hour
   }
 }));
@@ -40,7 +40,7 @@ app.get('/', async (req, res) => {
         const user = req.session.user;
         res.render('home', { user, count });
     } catch (error) {
-        res.status(500).send(error.message);
+        res.status(500).send("Interval Server Error: ",error.message);
     }
 });
 
